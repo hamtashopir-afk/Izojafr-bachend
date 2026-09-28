@@ -5,28 +5,22 @@ import os
 from jafr_engine import full_jafr
 from raml_engine import raml_analysis
 import random
-
 app = FastAPI(title="Jafr Raml AI")
-
 DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
 if not DEEPSEEK_API_KEY:
     raise ValueError("DEEPSEEK_API_KEY is not set.")
-
 client = AsyncOpenAI(
     base_url="https://api.deepseek.com",
     api_key=DEEPSEEK_API_KEY,
 )
-
 class JafrRequest(BaseModel):
     name: str
     mother_name: str
     question: str
-
 class RamlRequest(BaseModel):
     name: str
     mother_name: str
     question: str
-
 class AIRequest(BaseModel):
     name: str
     mother_name: str
@@ -50,7 +44,6 @@ async def get_ai_interpretation(prompt: str) -> str:
         return response.choices[0].message.content
     except Exception as e:
         return f"Error: {str(e)}"
-
 @app.post("/api/jafr")
 async def api_jafr(req: JafrRequest):
     result = full_jafr(req.name, req.mother_name, req.question)
@@ -72,7 +65,6 @@ async def api_jafr(req: JafrRequest):
         "interpretation": ai_text,
         "disclaimer": "This analysis is for entertainment and educational purposes only."
     }
-
 @app.post("/api/raml")
 async def api_raml(req: RamlRequest):
     mothers = []
@@ -98,7 +90,6 @@ async def api_raml(req: RamlRequest):
         "interpretation": ai_text,
         "disclaimer": "This analysis is for entertainment and educational purposes only."
     }
-
 @app.post("/api/combined")
 async def api_combined(req: AIRequest):
     jafr_result = full_jafr(req.name, req.mother_name, req.question)
@@ -122,7 +113,6 @@ prompt = f"""
         "interpretation": ai_text,
         "disclaimer": "This analysis is for entertainment and educational purposes only."
     }
-
 @app.get("/")
 def root():
     return {"message": "Jafr Raml AI API is running", "status": "ok"}
