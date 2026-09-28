@@ -84,12 +84,10 @@ async def api_raml(req: RamlRequest):
     Provide a comprehensive interpretation and practical solution in Persian.
     """
     ai_text = await get_ai_interpretation(prompt)
-    return {
-        "method": "raml",
+    return {        "method": "raml",
         "houses": result,
         "interpretation": ai_text,
-        "disclaimer": "This analysis is for entertainment and educational purposes only."
-    }
+        "disclaimer": "This analysis is for entertainment and educational purposes only." }
 @app.post("/api/combined")
 async def api_combined(req: AIRequest):
     jafr_result = full_jafr(req.name, req.mother_name, req.question)
