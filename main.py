@@ -104,7 +104,6 @@ async def api_combined(req: AIRequest):
     jafr_result = full_jafr(req.name, req.mother_name, req.question)
     mothers = [[random.randint(0, 1) for _ in range(4)] for _ in range(4)]
     raml_result = raml_analysis(mothers)
-
 prompt = f"""
     User {req.name} asked: {req.question}
     Jafr Akbar: {jafr_result['akbar']['name']} - {jafr_result['akbar']['meaning']}
